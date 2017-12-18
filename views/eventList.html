@@ -12,9 +12,11 @@
             </h4>
         </div>
         <div ng-switch-default>           
-            <div class="vertical-spacing small-vertical-spacing">                
+            <div class="vertical-spacing small-vertical-spacing"> 
+
                 <span class="alert alert-default remove-default-padding horizontal-spacing label-font">
                     <label class="btn-default no-bold" ng-disabled="true">{{'registered_events'| translate}} <span class="small-horizontal-spacing" ng-if="pager.total">({{'total' | translate}}:  {{pager.total}})</span></label>
+                    <label class="btn-default bold ng-binding" ng-disabled="true" style="font-weight: bold;color: red" disabled="disabled">Left Click on Registration Date to edit/update</label>
                 </span>
                 <span class="long-horizontal-spacing hideInPrint">                        
                     <span ng-if="dhis2Events.length > 0 && !eventRegistration && !editingEventInFull && !editingEventInGrid">

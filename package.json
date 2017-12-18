@@ -1,6 +1,6 @@
 {
   "name": "event-capture-app",
-  "version": "25.0.1"
+  "version": "25.0.1",
   "description": "DHIS2 event capture app",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.23.1",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.0",
+    "webpack": "^1.15.0",
     "webpack-dev-server": "^1.14.1"
   }
 }

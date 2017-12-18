@@ -93,7 +93,7 @@
                 <div class="div-bottom">
                     <button class="btn btn-success hideInPrint small-horizontal-spacing small-vertical-spacing"
                             type="button"
-                            ng-show="selectedProgramStage" 
+                            ng-show="selectedProgramStage && (!dhis2Events.length > 0 || selectedProgram.id!='tzR46QRZ6FJ')"  
                             ng-click="showEventRegistration()" 
                             ng-disabled="eventRegistration || editingEventInFull || editingEventInGrid">
                         {{'register_event'| translate}}
