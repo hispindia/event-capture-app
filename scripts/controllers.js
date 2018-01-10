@@ -849,13 +849,55 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
             //the form is valid, get the values
             //but there could be a case where all dataelements are non-mandatory and
             //the event form comes empty, in this case enforce at least one value
-            var dataValues = [];        
+            var dataValues = [];     
+            var invalidemail = false; 
+            var invalidweb = false;
+            var emaildataElementID = "g7vyRbNim1K";
+            var websitedataElementID = "Bcg4mZFD8gO";
+
             for(var dataElement in $scope.prStDes){            
                 var val = $scope.currentEvent[dataElement];
                 val = CommonUtils.formatDataValue(null, val, $scope.prStDes[dataElement].dataElement, $scope.optionSets, 'API');
                 dataValues.push({dataElement: dataElement, value: val});
+                //changes for validating email and website mad by ifhaam on
+                //3/1/2018
+                if(dataElement==emaildataElementID){
+                    var email=  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                    if(!val.match(email)){
+                        invalidemail = true;
+                    }   
+                }
+                if(dataElement==websitedataElementID){
+                    var website = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+                    if(val!="" && !val.match(website)){
+                        invalidweb = true;
+                    }
+                }
+                //change ends here
             }
 
+            //adding changes for valdating email and website
+            //changes for validating email and website mad by ifhaam on
+                //3/1/2018
+            if(invalidemail){
+                var dialogOptions = {
+                    headerText: 'Invalid Email',
+                    bodyText: 'Please enter a valid email'
+                };
+
+                DialogService.showDialog({}, dialogOptions);
+                return; 
+            }
+            if(invalidweb){
+                var dialogOptions = {
+                    headerText: 'Invalid website',
+                    bodyText: 'Please enter a valid website'
+                };
+
+                DialogService.showDialog({}, dialogOptions);
+                return; 
+            }
+            //change ends here
             if(!dataValues.length || dataValues.length === 0){
                 var dialogOptions = {
                     headerText: 'empty_form',
