@@ -41,6 +41,9 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
     $rootScope.ruleeffects = {};
     $scope.hiddenFields = [];
     $scope.assignedFields = [];
+	
+	// for tibet
+	$scope.parentOrgUnitName = 'iqjI8TY5Brm';
     
     $scope.calendarSetting = CalendarService.getSetting();
     
@@ -813,7 +816,25 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
         if($scope.selectedProgramStage.preGenerateUID){
             $scope.eventUID = dhis2.util.uid();
             $scope.currentEvent['uid'] = $scope.eventUID;
-        }        
+        }
+
+       //for tibet auto populate parent orgUnit name
+        var org_id = $scope.selectedOrgUnit.id;
+        $.ajax({
+            async:false,
+            type: "GET",
+            url: "../api/organisationUnits/"+ org_id +".json?fields=id,displayName,code,parent[id,displayName]",
+            success: function(responseOrgUnit){
+
+                $scope.orgUnitCode = responseOrgUnit.code;
+                $scope.parentDisplayName = responseOrgUnit.parent.displayName;
+                $scope.currentEvent[$scope.parentOrgUnitName] = $scope.parentDisplayName;
+
+            },
+            error: function(responseTei){
+            }
+        });
+
         $scope.currentEventOriginialValue = angular.copy($scope.currentEvent); 
         
         if($scope.eventRegistration){
