@@ -44,7 +44,9 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
 	
 	// for tibet
 	$scope.parentOrgUnitName = 'iqjI8TY5Brm';
-    
+
+    $scope.mandatoryFields = [];
+
     $scope.calendarSetting = CalendarService.getSetting();
     
     //Paging
@@ -57,6 +59,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
     }
     
     resetView();
+    
     
     $scope.editGridColumns = false;
     $scope.updateSuccess = false;
@@ -1672,6 +1675,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
         $scope.hiddenFields = [];
         $scope.assignedFields = [];
         $scope.displayTextEffects = [];
+        $scope.mandatoryFields = [];
 
         if($rootScope.ruleeffects[args.event]) {
             //Establish which event was affected:
@@ -1760,6 +1764,9 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                     }
                     else if(effect.action === "DISPLAYTEXT") {
                         $scope.displayTextEffects.push({text:effect.data + effect.content});
+                    }
+                    else if(effect.action === "SETMANDATORYFIELD"){
+                        $scope.mandatoryFields[effect.dataElement.id] = effect.ineffect;
                     }
                 }
             });
