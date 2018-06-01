@@ -35,7 +35,9 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                 TrackerRulesExecutionService,
                 OrgUnitFactory,
                 NotificationService,
-                OptionSetService) {
+                OptionSetService,
+                // add for libia custom-change
+                AggregatedService) {
     $scope.forms = {};
     $scope.maxOptionSize = 100;
     $scope.treeLoaded = false;    
@@ -46,7 +48,11 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
     $scope.mandatoryFields = [];
     $scope.calendarSetting = CalendarService.getSetting();
     $scope.timeFormat = "24h";
-    
+
+    // add for libia custom-change
+    $scope.dataSetUid = "qq8aqH1YPjT";
+    $scope.aggDefaultCCOUid = "HllvX50cXC0";
+
     //Paging
     $scope.pager = {pageSize: 50, page: 1, toolBarDisplay: 5};
     
@@ -1013,11 +1019,21 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
             //the form is valid, get the values
             //but there could be a case where all dataelements are non-mandatory and
             //the event form comes empty, in this case enforce at least one value
-            var dataValues = [];        
+            var dataValues = [];
+            // add for libia custom-change
+            var stockReceived = "";
+            var drugName = "";
             for(var dataElement in $scope.prStDes){            
                 var val = $scope.currentEvent[dataElement];
                 val = CommonUtils.formatDataValue(null, val, $scope.prStDes[dataElement].dataElement, $scope.optionSets, 'API');
                 dataValues.push({dataElement: dataElement, value: val});
+                // add for libia custom-change
+                if( dataElement === 'NcNbFUwWuIh'){
+                    stockReceived = val;
+                }
+                if ( dataElement === 'Rwv50ZC7k2Y'){
+                    drugName = val;
+                }
             }
 
             if(!dataValues.length || dataValues.length === 0){
@@ -1096,6 +1112,50 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                     newEvent.event = data.response.importSummaries[0].reference; 
                     $scope.currentEvent.event = newEvent.event;
 
+
+                    //add the new event to the grid
+                    newEvent.event = data.response.importSummaries[0].reference;
+                    $scope.currentEvent.event = newEvent.event;
+
+                    // add for libia custom-change
+                    // push eventDataValue to aggregatedDataValue
+                    var aggPeriod = $scope.currentEvent.eventDate.split("-")[0]+$scope.currentEvent.eventDate.split("-")[1];
+                    var aggOrgUnit = $scope.currentEvent.orgUnit;
+
+                    var aggDataElementUid = "";
+                    var finalAggDataValue = "";
+                    var dataElementNameUidMap = [];
+                    var finalDrugName = drugName + ' stock received';
+                    //alert( stockReceived + " new -- " + finalDrugName );
+                    AggregatedService.getDataElementNameUidMap($scope.dataSetUid).then(function(responseDataElementNameUidMap) {
+
+                        dataElementNameUidMap = responseDataElementNameUidMap;
+                        aggDataElementUid = dataElementNameUidMap[finalDrugName];
+
+                        AggregatedService.getDataValueFromDataValueSet($scope.dataSetUid, aggOrgUnit, aggPeriod, aggDataElementUid ).then(function(responseAggDataValue) {
+
+                            finalAggDataValue = parseInt ( responseAggDataValue ) + parseInt ( stockReceived );
+
+                            console.log(" $scope.finalAggDataValue -- " + finalAggDataValue );
+
+                            var aggDataValue = {
+                                'de' : aggDataElementUid,
+                                'co' : $scope.aggDefaultCCOUid,
+                                'ou' : aggOrgUnit,
+                                'pe' : aggPeriod,
+                                'value' : finalAggDataValue
+                            };
+
+                            AggregatedService.updateAggDataValue( aggDataValue ).then(function( responseDataValuePush ) {
+                                console.log(" responseDataValuePush -- " + responseDataValuePush );
+                            });
+
+                        });
+
+                        console.log(" $scope.aggDataElementUid -- " + aggDataElementUid );
+                    });
+                    // add for libia custom-change // end
+
                     $scope.updateFileNames();
 
                     if( !$scope.dhis2Events ){
@@ -1158,11 +1218,21 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
         
         return $scope.checkAndShowProgramRuleFeedback(editInGrid).then(function() {
             //the form is valid, get the values
-            var dataValues = [];        
+            var dataValues = [];
+            // add for libia custom-change
+            var stockReceived = "";
+            var drugName = "";
             for(var dataElement in $scope.prStDes){
                 var val = $scope.currentEvent[dataElement];            
                 val = CommonUtils.formatDataValue(null, val, $scope.prStDes[dataElement].dataElement, $scope.optionSets, 'API');            
                 dataValues.push({dataElement: dataElement, value: val});
+                // add for libia custom-change
+                if( dataElement === 'NcNbFUwWuIh'){
+                    stockReceived = val;
+                }
+                if ( dataElement === 'Rwv50ZC7k2Y'){
+                    drugName = val;
+                }
             }
 
             var updatedEvent = {
@@ -1207,6 +1277,44 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                 $scope.outerForm.submitted = false;            
                 $scope.editingEventInFull = false;
                 //$scope.currentEvent = {};
+
+                // add for libia custom-change
+                // update eventDataValue to aggregatedDataValue
+                var aggPeriod = $scope.currentEvent.eventDate.split("-")[0]+$scope.currentEvent.eventDate.split("-")[1];
+                var aggOrgUnit = $scope.currentEvent.orgUnit;
+                var aggDataElementUid = "";
+                var finalAggDataValue = "";
+                var dataElementNameUidMap = [];
+                var finalDrugName = drugName + ' stock received';
+                //alert( stockReceived + " update -- " + finalDrugName );
+                AggregatedService.getDataElementNameUidMap($scope.dataSetUid).then(function(responseDataElementNameUidMap) {
+
+                    dataElementNameUidMap = responseDataElementNameUidMap;
+                    aggDataElementUid = dataElementNameUidMap[finalDrugName];
+
+                    AggregatedService.getDataValueFromDataValueSet( $scope.dataSetUid, aggOrgUnit, aggPeriod, aggDataElementUid ).then(function(responseAggDataValue) {
+
+                        finalAggDataValue = parseInt ( responseAggDataValue ) + parseInt ( stockReceived );
+
+                        console.log(" $scope.finalAggDataValue -- " + finalAggDataValue );
+
+                        var aggDataValue = {
+                            'de' : aggDataElementUid,
+                            'co' : $scope.aggDefaultCCOUid,
+                            'ou' : aggOrgUnit,
+                            'pe' : aggPeriod,
+                            'value' : finalAggDataValue
+                        };
+
+                        AggregatedService.updateAggDataValue( aggDataValue ).then(function( responseDataValuePush ) {
+                            console.log(" responseDataValuePush -- " + responseDataValuePush );
+                        });
+
+                    });
+
+                    console.log(" $scope.aggDataElementUid -- " + $scope.aggDataElementUid );
+                });
+                // add for libia custom-change // end
                 $scope.currentEventOriginialValue = angular.copy($scope.currentEvent);                
                 if( !angular.equals($scope.selectedOptionsOriginal, $scope.selectedOptions) ){
                     $scope.loadEvents(editInGrid);
