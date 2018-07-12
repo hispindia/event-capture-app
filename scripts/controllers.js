@@ -1580,7 +1580,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                         /* rowArray has one row of values for the event fields */
                         if (angular.isObject(rowArray)) {
                             csvRow = [];
-                            csvFieldsIndices.forEach((idx) => {
+                            csvFieldsIndices.forEach(function(idx) {
                                 processedData = getProcessedValue(headerArray[idx].name, rowArray[idx]);
                                 csvRow.push(processedData.value);
                             });
@@ -1616,7 +1616,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                             if (format === "JSON") {
                                 eventJSON = {};
                                 dataValues = [];
-                                headerArray.forEach((key, idx) => {
+                                headerArray.forEach(function(key, idx) {
                                     if (rowArray[idx]) {
                                         processedData =   getProcessedValue(headerArray[idx].name, rowArray[idx]);
                                         if (processedData.isDataValue) {
@@ -1633,7 +1633,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                             } else if (format === "XML") {
                                 eventsXML += "<event>";
                                 dataValues = [];
-                                headerArray.forEach((key, idx) => {
+                                headerArray.forEach(function(key, idx) {
                                     if (rowArray[idx]) {
                                         processedData = getProcessedValue(headerArray[idx].name, rowArray[idx]);
                                         if(processedData.isDataValue) {
