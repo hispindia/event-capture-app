@@ -1009,10 +1009,12 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
             //but there could be a case where all dataelements are non-mandatory and
             //the event form comes empty, in this case enforce at least one value
             var dataValues = [];        
-            for(var dataElement in $scope.prStDes){            
-                var val = $scope.currentEvent[dataElement];
-                val = CommonUtils.formatDataValue(null, val, $scope.prStDes[dataElement].dataElement, $scope.optionSets, 'API');
-                dataValues.push({dataElement: dataElement, value: val});
+            for(var dataElement in $scope.prStDes){
+                if($scope.prStDes.hasOwnProperty(dataElement)){
+                    var val = $scope.currentEvent[dataElement];
+                    val = CommonUtils.formatDataValue(null, val, $scope.prStDes[dataElement].dataElement, $scope.optionSets, 'API');
+                    dataValues.push({dataElement: dataElement, value: val});
+                }
             }
 
             if(!dataValues.length || dataValues.length === 0){
@@ -1152,9 +1154,11 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
             //the form is valid, get the values
             var dataValues = [];        
             for(var dataElement in $scope.prStDes){
-                var val = $scope.currentEvent[dataElement];            
-                val = CommonUtils.formatDataValue(null, val, $scope.prStDes[dataElement].dataElement, $scope.optionSets, 'API');            
-                dataValues.push({dataElement: dataElement, value: val});
+                if($scope.prStDes.hasOwnProperty(dataElement)){
+                    var val = $scope.currentEvent[dataElement];            
+                    val = CommonUtils.formatDataValue(null, val, $scope.prStDes[dataElement].dataElement, $scope.optionSets, 'API');            
+                    dataValues.push({dataElement: dataElement, value: val});
+                }
             }
 
             var updatedEvent = {
@@ -1775,7 +1779,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
     
     $scope.executeRules = function() {
         $scope.currentEvent.event = !$scope.currentEvent.event ? 'SINGLE_EVENT' : $scope.currentEvent.event;
-        var flags = {debug: true, verbose: false};
+        var flags = {debug: true, verbose: $location.search().verbose ? true : false};
         TrackerRulesExecutionService.loadAndExecuteRulesScope($scope.currentEvent,$scope.selectedProgram.id,$scope.selectedProgramStage.id,$scope.prStDes,null,$scope.optionSets,$scope.selectedOrgUnit.id,flags);
     };
        
