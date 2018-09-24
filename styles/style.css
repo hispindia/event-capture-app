@@ -200,14 +200,14 @@ input[type=number] {
     background-color: #ebf0f6;
 }
 .dhis2-list-table-striped > thead > tr > th:first-child {
-    width : 33%;
+    width : 70%;
 }
 .dhis2-list-table-striped > thead > tr > th:nth-child(2) {
     padding-left: 2%;
     width: 100%;
 }
 .dhis2-list-table-striped > tbody > tr > td:first-child {
-    width : 33%;
+    width : 70%;
 }
 
 .dhis2-list-table-striped > tbody > tr > td:nth-child(2) {
@@ -433,9 +433,9 @@ select {
     margin-left: 5px;    
 }
 
-.small-vertical-spacing{
+/* .small-vertical-spacing{
     margin-top: 5px;    
-}
+} */
 
 
 .vertical-spacing{

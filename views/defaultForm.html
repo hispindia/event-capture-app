@@ -1,7 +1,7 @@
 <div ng-include="'views/event-details.html'"></div>
 
 <div  ng-if='!selectedProgramStage.programStageSections.length && currentEvent.eventDate'>
-    <table class="dhis2-list-table-striped table-with-fixed-layout">
+    <table class="dhis2-list-table-striped table-with-fixed-layout"  >
         <thead>
             <tr>
                 <th>
@@ -315,29 +315,43 @@
 </div>
 
 <div ng-if='selectedProgramStage.programStageSections.length && currentEvent.eventDate'>
+   
     <div ng-if="currentEvent.eventDate">
         <div ng-repeat="section in selectedProgramStage.programStageSections | orderBy: 'sortOrder'" ng-if="section.id === selectedSection.id || selectedSection.id === 'ALL' && !hiddenSections[section.id] ">
+           
             <div class="vertical-spacing section-label">
+                
                {{section.displayName}}
+           
             </div>
 
+    
+        
             <div class="vertical-spacing" ng-if="!section.dataElements || section.dataElements.length === 0">
                 <div class="alert alert-warning">{{'section_has_no_dataelements'| translate}}</div>
             </div>
-            <table class="dhis2-list-table-striped small-vertical-spacing">
+        
+       
+            <table class="dhis2-list-table-striped small-vertical-spacing" style="border: 1px solid skyblue",>
+               
                 <thead>
+                      
                     <tr>
-                        <th>
+                       
+                        <th >
                             {{'data_element'| translate}}
                         </th>
-                        <th>
+                        <th >
                             {{'value'| translate}}
                         </th>
+                        
                     </tr>
+                
                 </thead>
+            
                 <tbody>
                     <tr ng-repeat="de in section.dataElements" ng-if="!hiddenFields[de.id]">
-                        <td>
+                        <td >
                             <span d2-pop-over
                                 class="popover-label hideInPrint"
                                 details="{{'details'| translate}}"
@@ -351,26 +365,34 @@
                             <span ng-if="prStDes[de.id].compulsory || mandatoryFields[de.id]" class="required">*</span>
                         </td>
                         <td>
-                            <ng-form name="innerForm">
+                             
+                              
+                            <ng-form name="innerForm" >
+
                                 <div ng-if="prStDes[de.id].dataElement.optionSetValue">
-                                    <span ng-if="!prStDes[de.id].renderOptionsAsRadio || optionSets[prStDes[de.id].dataElement.optionSet.id].options.length >= 7">
-                                        <span>
+                                    <span ng-if="!prStDes[de.id].renderOptionsAsRadio || optionSets[prStDes[de.id].dataElement.optionSet.id].options.length >= 7"  >
+                                        <span >
+                                            
                                             <ui-select ng-model="currentEvent[de.id]"
                                                    theme="select2"
+                                                   ng-if="!prStDes[de.id].renderOptionsAsRadio || optionSets[prStDes[de.id].dataElement.optionSet.id].options.length >= 7  && prStDes[de.id].dataElement.optionSet.id =='B8L1rqaDIYg'"
+                                                   ng-click="validate($select.selected,optionSets[prStDes[de.id].dataElement.optionSet.id] )"
+                                                   
                                                    ng-required="prStDes[de.id].compulsory || mandatoryFields[de.id]"
                                                    ng-disabled="assignedFields[de.id] || model.editingDisabled"
                                                    name="foo"
                                                    input-field-id={{de.id}}
-                                                   on-select="saveDatavalue()"
+                                                   on-select="saveDatavalue()  "
                                                    style="width:100%;">
                                                 <ui-select-match allow-clear="true" class="form-control-ui-select" ng-attr-placeholder="{{'select_or_search' | translate}}">{{$select.selected.displayName || $select.selected}}</ui-select-match>
                                                 <ui-select-choices  repeat="option.displayName as option in optionSets[prStDes[de.id].dataElement.optionSet.id].options | filter: $select.search | limitTo:maxOptionSize">
                                                     <span ng-bind-html="option.displayName | highlight: $select.search"></span>
                                                 </ui-select-choices>
                                             </ui-select>
+                                            
                                         </span>
                                     </span>
-                                    <span ng-if="prStDes[de.id].renderOptionsAsRadio && optionSets[prStDes[de.id].dataElement.optionSet.id].options.length < 7">
+                                    <span ng-if="prStDes[de.id].renderOptionsAsRadio && optionSets[prStDes[de.id].dataElement.optionSet.id].options.length < 7" >
                                         <d2-radio id="de.id" 
                                             d2-name="foo" 
                                             d2-object="currentEvent" 
@@ -381,6 +403,8 @@
                                         </d2-radio>
                                     </span>
                                 </div>
+
+
                                 <div ng-if="!prStDes[de.id].dataElement.optionSetValue" ng-switch="prStDes[de.id].dataElement.valueType">
                                     <div ng-switch-when="NUMBER">
                                         <input type="number"
@@ -471,7 +495,7 @@
                                                 ng-blur="saveDatavalue()"
                                                 class="form-control"/>
                                     </div>
-                                    <div ng-switch-when="TEXT">
+                                    <div ng-switch-when="TEXT" ng-if="prStDes[de.id] == 'B8L1rqaDIYg'"  >
                                         <input type="text"
                                                 ng-model="currentEvent[de.id]"
                                                 ng-required="prStDes[de.id].compulsory || mandatoryFields[de.id]"
@@ -646,4 +670,5 @@
             </table>
         </div>
     </div>
+
 </div>
