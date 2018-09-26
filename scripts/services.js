@@ -387,13 +387,14 @@ var eventCaptureServices = angular.module('eventCaptureServices', ['ngResource']
         },        
         create: function(dhis2Event){
             var promise = $http.post(DHIS2URL + '/events.json', dhis2Event).then(function(response){
+                
                 return response.data;
             }, function(){            
                 dhis2Event.id = dhis2.util.uid();  
                 dhis2Event.event = dhis2Event.id;
                 dhis2.ec.store.set( 'events', dhis2Event );                
                 return {response: {importSummaries: [{status: 'SUCCESS', reference: dhis2Event.id}]}};
-            });
+            } );
             return promise;            
         },        
         delete: function(dhis2Event){

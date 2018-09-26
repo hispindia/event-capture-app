@@ -120,8 +120,8 @@
         <!-- event grid ends -->
 
         <!-- event update in full / registration begins-->
-        <form name="outerForm" novalidate>
-            <div ng-if="editingEventInFull || eventRegistration">
+        <form name="outerForm"  novalidate>
+            <div  ng-if="editingEventInFull || eventRegistration">
                 <h3>
                     <span ng-if="editingEventInFull">{{'event_details'| translate}}</span>
                     <span ng-if="eventRegistration">{{'new_event'| translate}}</span>
@@ -130,7 +130,7 @@
                         </d2-audit>
                     </span>
                 </h3>
-                <div class="col-sm-6">
+                <div  class="col-sm-6">
                     <script type="text/ng-template" id="dataelement-details.html">
                         <table class="table table-bordered">
                             <tr>
@@ -154,7 +154,7 @@
                         <div ng-if="displayCustomForm" ng-include="'views/ec-custom-form.html'"></div>  
                         <div ng-if="!displayCustomForm" ng-include="'views/defaultForm.html'"></div>
                         <div ng-if="currentEvent.eventDate" ng-include="'views/status.html'"></div>
-                        <div ng-include="'views/comments-section.html'" ng-if="currentEvent.eventDate"></div>
+                        <div id="hideDiv1" ng-include="'views/comments-section.html'" ng-if="currentEvent.eventDate"></div>
                         <div ng-include="'views/buttons-section.html'"></div>
                     </div>                    
                 </div>

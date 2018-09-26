@@ -316,7 +316,7 @@
 
 <div ng-if='selectedProgramStage.programStageSections.length && currentEvent.eventDate'>
    
-    <div ng-if="currentEvent.eventDate">
+    <div id ="hideDiv"  ng-if="currentEvent.eventDate">
         <div ng-repeat="section in selectedProgramStage.programStageSections | orderBy: 'sortOrder'" ng-if="section.id === selectedSection.id || selectedSection.id === 'ALL' && !hiddenSections[section.id] ">
            
             <div class="vertical-spacing section-label">
@@ -376,7 +376,7 @@
                                             <ui-select ng-model="currentEvent[de.id]"
                                                    theme="select2"
                                                    ng-if="!prStDes[de.id].renderOptionsAsRadio || optionSets[prStDes[de.id].dataElement.optionSet.id].options.length >= 7  && prStDes[de.id].dataElement.optionSet.id =='B8L1rqaDIYg'"
-                                                   ng-click="validate($select.selected,optionSets[prStDes[de.id].dataElement.optionSet.id] )"
+                                                   ng-change="validate($select.selected,optionSets[prStDes[de.id].dataElement.optionSet.id] )"
                                                    
                                                    ng-required="prStDes[de.id].compulsory || mandatoryFields[de.id]"
                                                    ng-disabled="assignedFields[de.id] || model.editingDisabled"

@@ -143,11 +143,40 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                 }
             });
 
+            $scope.month = "";
+            $scope.Year = "";
+
             $scope.verifyExpiryDate = function () {
+                var datee = new Date();
+                var mm = datee.getMonth() + 1;
+                console.log(mm);
+                var yy = datee.getFullYear();
+                                console.log(yy);
+                $scope.year = $scope.currentEvent.eventDate2;
+                $scope.month = $scope.currentEvent.eventDate1;
+                if($scope.year == yy && $scope.month > mm){
+
+                    alert("future period is not allowed please select correct month");
+                
+                   document.getElementById("months").value = "";
+          
+                    $("#hideDiv").hide();
+                    $("#hideDiv1").hide();
+                    $("#hideDiv2").hide();
+              
+                     return true;
+                }
+                $("#hideDiv").show();
+                    $("#hideDiv1").show();
+                    $("#hideDiv2").show();
+             
+               $scope.currentEvent.eventDate =  $scope.year + "-" + $scope.month + "-" + "01";
+
                 if (!DateUtils.verifyExpiryDate($scope.currentEvent.eventDate, $scope.selectedProgram.expiryPeriodType,
                     $scope.selectedProgram.expiryDays)) {
                     $scope.currentEvent.eventDate = null;
                 }
+            
             };
 
             $scope.completeEnrollment = function () {
@@ -820,7 +849,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                 $scope.currentEventOriginialValue = angular.copy($scope.currentEvent);
 
                 if ($scope.eventRegistration) {
-                    //  $scope.executeRules();
+                      $scope.executeRules();
                 }
             };
 
@@ -882,7 +911,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                         //Blank out rule effects, as there is no rules in effect before the first
                         //time the rules is run on a new page.
                         $rootScope.ruleeffects[$scope.currentEvent.event] = {};
-                        //  $scope.executeRules();
+                          $scope.executeRules();
                     }
 
                     if (!$location.search().ou) {
@@ -1761,7 +1790,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                 }
             });
 
-            /* $scope.executeRules = function() {
+            $scope.executeRules = function() {
                  $scope.currentEvent.event = !$scope.currentEvent.event ? 'SINGLE_EVENT' : $scope.currentEvent.event;
                  var flags = {debug: true, verbose: $location.search().verbose ? true : false};
                 
@@ -1769,7 +1798,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                  
               $scope.optionSets == null;
                  
-             };*/
+             };
 
 
             $scope.formatNumberResult = function (val) {
@@ -1801,170 +1830,6 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                 //  $scope.executeRules();
             };
 
-            /* $scope.validation = function (data) {
-                // console.log(data1);
-                $scope.apicall(data);
-                 console.log(data);
-                 if (data == 'WujOkY0r4E3') {
-                     console.log($scope.optionSets);  //print json
-                    
-                    // $scope.optionSets.rqX0kutA3zU.options = [];
-                     for(var i = 0; i<$scope.optionSets ; i++)
-                     {
-                     
-                         if  (data1 == 'Associated cause of maternal death')
-                         {
-                          data1 = $scope.optionSets;
-                         }
-                     
-                 }
-             }*/
-            /* $scope.optionSets.rqX0kutA3zU.options = [
-             { code: "Anaemia complicating pregnancy", id: "wN0vwIg0sYu", displayName: "Anaemia complicating pregnancy", $$hashKey: "object:536" }
-             ];
-             console.log($scope.optionSets);
-         }
-     
-0: {code: "Anaemia complicating pregnancy", name: "Anaemia complicating pregnancy", id: "GP641fKr7qn", optionSet: {…}}
-length: 1
-         if (data == 'WujOkY0r4E3') {
-             console.log($scope.optionSets);
-             $scope.optionSets.rqX0kutA3zU.options = [];
-             $scope.optionSets.rqX0kutA3zU.options = [
-                 {code: "Induced  abortion and sepsis", id: "oEhSDyi5TF6", displayName: "Induced  abortion and sepsis", $$hashKey: "object:560"},
-                 {code: "Septic abortion", id: "FOKPoKorBiJ", displayName: "Septic abortion", $$hashKey: "object:595"},
-                 {code: "Spontaneous abortion  and haemorrhage", id: "WdFFeQ1qWit", displayName: "Spontaneous abortion and haemorrhage", $$hashKey: "object:599"},
-                 {code: "Spontaneous abortion and sepsis", id: "IhZvdrkza7I", displayName: "Spontaneous abortion and sepsis", $$hashKey: "object:600"}
-             ];
-             console.log($scope.optionSets);
-         }
-
-         if(data == 'PDKHoPEwgxY'){
-             console.log($scope.optionSets);
-             $scope.optionSets.rqX0kutA3zU.options = [];
-             $scope.optionSets.rqX0kutA3zU.options = [ 
-                 {code: "Complications following  general anaesthesia", id: "FdZDqcizPN8", displayName: "Complications following  general anaesthesia", $$hashKey: "object:544"},
-                 {code: "Complications following spinal anaesthesia", id: "hAg5ZviNTE1", displayName: "Complications following spinal anaesthesia", $$hashKey: "object:545"}
-               ];
-               console.log($scope.optionSets);
-
-         }
-
-         if(data =='dL6Jcdz860c'){
-             console.log($scope.optionSets);
-             $scope.optionSets.rqX0kutA3zU.options = [];
-             $scope.optionSets.rqX0kutA3zU.options = [
-             {code: "Diabetes mellitus", id: "WNXaoAWPywz", displayName: "Diabetes mellitus", $$hashKey: "object:549"}
-             ];
-             console.log($scope.optionSets);
-         }
-         if(data == 'TCfzFYO8ppA'){
-             console.log($scope.optionSets);
-             $scope.optionSets.rqX0kutA3zU.options = [];
-             $scope.optionSets.rqX0kutA3zU.options = [
-                 {code: "APH due to  indeterminate causes", id: "ApWAkSDhoSu", displayName: "APH due to  indeterminate causes", $$hashKey: "object:538"},
-                 {code: "APH due to abruption placenta", id: "H9OFEpplkb5", displayName: "APH due to abruption placenta", $$hashKey: "object:539"},
-                 {code: "APH due to placenta praevia", id: "sSzXljhBdlY", displayName: "APH due to placenta praevia", $$hashKey: "object:540"}  
-             ];
-             console.log($scope.optionSets);
-         }
-
-         if(data == 'HHj6VmFTC9C') {
-             console.log($scope.optionSets);
-             $scope.optionSets.rqX0kutA3zU.options = [];
-             $scope.optionSets.rqX0kutA3zU.options = [
-                 
-     {code: "PPH following uterine atony due to prolonged or obstructed labour", id: "ESpkoACElxC", displayName: "PPH following uterine atony due to prolonged or obstructed labour", $$hashKey: "object:584"},
-     {code: "PPH due to undetermined cause", id: "ykNfwngk2eo", displayName: "PPH due to undetermined cause", $$hashKey: "object:574"},
-     {code: "PPH following retained membranes or placental bits", id: "CFxtU8rS4qy", displayName: "PPH following retained membranes or placental bits", $$hashKey: "object:579"},
-     {code: "PPH following abruptio placenta", id: "R6TtgVpJH9s", displayName: "PPH following abruptio placenta", $$hashKey: "object:575"},
-     {code: "PPH following uterine atony due to twins", id: "pBjFDmirsT5", displayName: "PPH following uterine atony due to twins", $$hashKey: "object:585"},
-     {code: "Traumatic PPH following tears in cervix/vagina/perineum", id: "Ag1Mtplu45m", displayName: "Traumatic PPH following tears in cervix/vagina/perineum", $$hashKey: "object:604"},
-     {code: "PPH following uterine atony due to multiparity", id: "r49h6Vn8FFQ", displayName: "PPH following uterine atony due to multiparity", $$hashKey: "object:583"},
-     {code: "PPH following inversion of uterus", id: "rpKDCXj5lX5", displayName: "PPH following inversion of uterus", $$hashKey: "object:576"},
-     {code: "Secondary PPH due to undetermined causes", id: "XI5xU5Ybv6G", displayName: "Secondary PPH due to undetermined causes", $$hashKey: "object:594"},
-     {code: "PPH following uterine atony due to hydramnios", id: "klmAEWgqmxF", displayName: "PPH following uterine atony due to hydramnios", $$hashKey: "object:582"},
-     {code: "PPH following retained placenta with normal placentation", id: "f0OcA53pUca", displayName: "PPH following retained placenta with normal placentation", $$hashKey: "object:581"},
-     {code: "PPH following prior foetal death", id: "XKDj2yrac3S", displayName: "PPH following prior foetal death", $$hashKey: "object:578"},
-     {code: "PPH following retained placenta with abnormal placentation (acreta/increta/percreta)", id: "zx8uAwGGCgC", displayName: "PPH following retained placenta with abnormal placentation (acreta/increta/percreta)", $$hashKey: "object:580"},
-
-
-             ];
-             console.log($scope.optionSets);
-         }
-
-         if(data == 'b0IDHYh6RmM'){
-             console.log($scope.optionSets);
-             $scope.optionSets.rqX0kutA3zU.options = [];
-             $scope.optionSets.rqX0kutA3zU.options = [  
-                 {code: "Secondary PPH due to retained  placental tissue", id: "Rq0erb12fq6", displayName: "Secondary PPH due to retained  placental tissue", $$hashKey: "object:592"},
-                 {code: "Secondary PPH due to sepsis", id: "FesMRCWlPjT", displayName: "Secondary PPH due to sepsis", $$hashKey: "object:593"},
-                 {code: "Secondary PPH due to undetermined causes", id: "XI5xU5Ybv6G", displayName: "Secondary PPH due to undetermined causes", $$hashKey: "object:594"}
-             ];
-             console.log($scope.optionSets);
-
-         }
-         if(data == 'LK3fTKoQXgT'){
-             console.log($scope.optionSets);
-             $scope.optionSets.rqX0kutA3zU.options = [];
-             $scope.optionSets.rqX0kutA3zU.options = [ 
-                 {code: "Undiagnosed heart disease", id: "pikg7Y6yRws", displayName: "Undiagnosed heart disease", $$hashKey: "object:606"},
-                 {code: "Congenital heart disease", id: "bEGMhMfG5dy", displayName: "Congenital heart disease", $$hashKey: "object:547"},
-                 {code: "Dilated cardiomyopathy", id: "tDP0DSUccfE", displayName: "Dilated cardiomyopathy", $$hashKey: "object:550"},
-                 {code: "Rheumatic heart disease", id: "tSDZ1PXWwCR", displayName: "Rheumatic heart disease", $$hashKey: "object:589"},{code: "Myocardial infarction", id: "BKOXjEXByn7", displayName: "Myocardial infarction", $$hashKey: "object:566"},
-                 {code: "Complications following valve replacement", id: "SLBW9bu5Kv0", displayName: "Complications following valve replacement", $$hashKey: "object:546"},
-
-
-             ];
-             console.log($scope.optionSets);
-         }*/
-
-
-
-
-
-
-
-            // if (data == 'B8L1rqaDIYg') {
-            //     $scope.abc=[];
-
-            //     //abortion id 
-            //     if (data == 'rqX0kutA3zU') {
-            //         // $scope.optionSets.rqX0kutA3zU.options = [];
-            //         console.log($scope.optionSets.rqX0kutA3zU.options);
-            //     }
-            //     console.log($scope.optionSets.rqX0kutA3zU.options);
-
-            // }
-
-
-            /* };
- 
-             $scope.apicall = function (optioncode) {
-                 $.ajax({
-                     async: false,
-                     type: "GET",
-                     url: '../api/optionSets.json?fields=id,name,code,options[*,optionSet[*]]&paging=false',
-                     success: function (data) {
-                         
-                         
-                         for(var i=0; i<data.optionSets[i].length; i++){
-                             if(data.optionSets[i].code == optioncode){
-                             $scope.test = data.optionSets[i].options;
-                            // console.log($scope.test);
-                         
-                             $scope.test = data.optionSets;
-                             console.log($scope.test)
-                            // $scope.optionSets.rqX0kutA3zU.options = [];
-                            // $scope.optionSets.rqX0kutA3zU.options =
-                           }
-                        }
-                   //  optionsetdata = data;
-                     }
-                 });
-                 //return ounamee;
-             };
-             */
 
             $scope.validate = function (data, data1) {
                 // alert("hello");
@@ -1973,7 +1838,7 @@ length: 1
                 console.log(data);
                 console.log(data1);
 
-                $scope.apicall(data.code, data1.id);
+                $scope.apicall(data.code);
 
 
             }
@@ -2286,12 +2151,34 @@ length: 1
 
             }
 
+            
+                $scope.contactListCtrl = function(){
+
+                var year = new Date().getFullYear();
+             var range = [];
+             range.push(year);
+             for (var i = 1; i < 7; i++) {
+                range.push(year +i);
+                range.reverse();
+            }
+             for (var i = 1; i < 7; i++) {
+                 range.push(year - i);
+               
+             }
+             $scope.years = range;
+         
+         
+             }
+
+
+            
+
 
             $scope.saveDatavalueRadio = function (prStDe, event, value) {
                 var id = prStDe.dataElement ? prStDe.dataElement.id : prStDe.id;
                 event[id] = value;
 
-                // $scope.executeRules();
+                 $scope.executeRules();
             };
 
             $scope.updateDatavalueRadio = function (prStDe, event, value) {
