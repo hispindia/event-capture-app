@@ -143,8 +143,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                 }
             });
 
-            $scope.month = "";
-            $scope.Year = "";
+            
 
             $scope.verifyExpiryDate = function () {
                 var datee = new Date();
@@ -154,7 +153,20 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                                 console.log(yy);
                 $scope.year = $scope.currentEvent.eventDate2;
                 $scope.month = $scope.currentEvent.eventDate1;
-                if($scope.year == yy && $scope.month > mm){
+
+                if($scope.currentEvent.eventDate2 == undefined || $scope.currentEvent.eventDate1 == undefined)
+                {
+                  
+                    alert("please select yaar and month");
+                    $("#hideDiv").hide();
+                    $("#hideDiv1").hide();
+                    $("#hideDiv2").hide();
+                    
+                    return true;
+                   
+                }
+               
+               if($scope.year == yy && $scope.month > mm ){
 
                     alert("future period is not allowed please select correct month");
                 
@@ -166,6 +178,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
               
                      return true;
                 }
+
                 $("#hideDiv").show();
                     $("#hideDiv1").show();
                     $("#hideDiv2").show();
@@ -176,6 +189,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                     $scope.selectedProgram.expiryDays)) {
                     $scope.currentEvent.eventDate = null;
                 }
+
             
             };
 
@@ -1849,7 +1863,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                 $.ajax({
                     type: "GET",
                     async: 'false',
-                    url: "../api/optionSets.json?fields=*,options[id,name,code,optionSet]&paging=false",
+                    url: "../api/optionSets.json?fields=id,name,displayName,code,options[id,name,code,optionSet]&paging=false",
                     data: JSON,
 
                     success: function (data) {
@@ -1862,284 +1876,20 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
 
                             $scope.optionarray= [];
 
-                            if ($scope.selectedOption == "Anaemia" && data.optionSets[j].code == "Anaemia") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
+                            if($scope.selectedOption === data.optionSets[j].code){
                                 $(data.optionSets[j].options).each(function (index, item1) {
                                     $scope.name = item1.name;
                                     $scope.id = item1.id;
                                     $scope.code = item1.code;
                                     $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
                                     $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-
-                           
-                            
-                            else if ($scope.selectedOption == "Abortions" && data.optionSets[j].code == "Abortions") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-
-                            else if ($scope.selectedOption == "Complications of anaesthesia" && data.optionSets[j].code == "Complications of anaesthesia") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
+                                        //console.log($scope.obj);
                                         $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
                                 });
 
                             }
 
 
-                            else if ($scope.selectedOption == "Endocrine disorders" && data.optionSets[j].code == "Endocrine disorders") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-
-
-                            else if ($scope.selectedOption == "Ante partum haemorrhage" && data.optionSets[j].code == "Ante partum haemorrhage") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-
-
-                            else if ($scope.selectedOption == "Post partum haemorrhage " && data.optionSets[j].code == "AbPost partum haemorrhage ortions") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-
-
-                            else if ($scope.selectedOption == "Secondary PPH" && data.optionSets[j].code == "Secondary PPH") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-
-
-                            else if ($scope.selectedOption == "Heart diseases complicating pregnancy" && data.optionSets[j].code == "Heart diseases complicating pregnancy") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-
-                           
-                            else if ($scope.selectedOption == "Hypertensive disorder" && data.optionSets[j].code == "Hypertensive disorder") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-
-
-                            else if ($scope.selectedOption == "Infectious diseases" && data.optionSets[j].code == "Infectious diseases") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-
-
-                            else if ($scope.selectedOption == "Obstructed labour" && data.optionSets[j].code == "Obstructed labour") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-                            
-                            else if ($scope.selectedOption == "Other conditions for direct cause of death" && data.optionSets[j].code == "Other conditions for direct cause of death") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-
-
-                            
-                            else if ($scope.selectedOption == "Renal conditions" && data.optionSets[j].code == "Renal conditions") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-                            
-                            else if ($scope.selectedOption == "Liver disorders" && data.optionSets[j].code == "Liver disorders") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-                            
-                            else if ($scope.selectedOption == "Other sudden deaths" && data.optionSets[j].code == "Other sudden deaths") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                            }
-                            
-                            else if ($scope.selectedOption == "Surgical complications" && data.optionSets[j].code == "Surgical complications") {
-                                $scope.optionSets.rqX0kutA3zU.options = "";
-                                console.log(data.optionSets[j]);
-
-                                $(data.optionSets[j].options).each(function (index, item1) {
-                                    $scope.name = item1.name;
-                                    $scope.id = item1.id;
-                                    $scope.code = item1.code;
-                                    $scope.obj = { code: $scope.code, id: $scope.id, displayName: $scope.name };
-                                    $scope.optionarray.push($scope.obj);
-                                        console.log($scope.obj);
-                                        $scope.optionSets.rqX0kutA3zU.options =$scope.optionarray;
-                                });
-
-                                
-
-                            }
-
-
-
-
-
-
-
-
-                            
 
                         }
 

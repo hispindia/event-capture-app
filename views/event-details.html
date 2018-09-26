@@ -20,8 +20,8 @@
                     
 
 
-<select   ng-model="currentEvent.eventDate2" >
-        <option value="" disabled selected>Select your option</option>
+<select  ng-change="verifyExpiryDate()" ng-model="currentEvent.eventDate2" >
+        <option value="" disabled selected>Select Year</option>
         <option value="2018">2018</option>
         <option value="2017">2017</option>
         <option value="2016">2016</option>
@@ -37,7 +37,7 @@
 
 </select>
 <select id="months"  ng-change="verifyExpiryDate()" ng-model="currentEvent.eventDate1" ng-disabled="model.editingDisabled">
-        <option value="" disabled selected>Select your option</option>
+        <option value="" disabled selected>Select Month</option>
        <option value="01">Jan</option>
        <option value="02">Feb</option>
        <option value="03">March</option>
