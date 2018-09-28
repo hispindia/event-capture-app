@@ -382,7 +382,7 @@
                                                    ng-disabled="assignedFields[de.id] || model.editingDisabled"
                                                    name="foo"
                                                    input-field-id={{de.id}}
-                                                   on-select="saveDatavalue()  "
+                                                   on-select="saveDatavalue()"
                                                    style="width:100%;">
                                                 <ui-select-match allow-clear="true" class="form-control-ui-select" ng-attr-placeholder="{{'select_or_search' | translate}}">{{$select.selected.displayName || $select.selected}}</ui-select-match>
                                                 <ui-select-choices  repeat="option.displayName as option in optionSets[prStDes[de.id].dataElement.optionSet.id].options | filter: $select.search | limitTo:maxOptionSize">
@@ -495,7 +495,7 @@
                                                 ng-blur="saveDatavalue()"
                                                 class="form-control"/>
                                     </div>
-                                    <div ng-switch-when="TEXT" ng-if="prStDes[de.id] == 'B8L1rqaDIYg'"  >
+                                    <div ng-switch-when="TEXT">
                                         <input type="text"
                                                 ng-model="currentEvent[de.id]"
                                                 ng-required="prStDes[de.id].compulsory || mandatoryFields[de.id]"

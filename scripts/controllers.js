@@ -156,14 +156,10 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
 
                 if($scope.currentEvent.eventDate2 == undefined || $scope.currentEvent.eventDate1 == undefined)
                 {
-                  
-                    alert("please select yaar and month");
                     $("#hideDiv").hide();
                     $("#hideDiv1").hide();
                     $("#hideDiv2").hide();
-                    
                     return true;
-                   
                 }
                
                if($scope.year == yy && $scope.month > mm ){
@@ -1841,7 +1837,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
             };
 
             $scope.saveDatavalue = function () {
-                //  $scope.executeRules();
+                 $scope.executeRules();
             };
 
 
