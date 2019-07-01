@@ -36,7 +36,8 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
                 TrackerRulesExecutionService,
                 OrgUnitFactory,
                 NotificationService,
-                OptionSetService) {
+                OptionSetService,
+                SQLViewService) {
     $scope.forms = {};
     $scope.maxOptionSize = 100;
     $scope.treeLoaded = false;    
@@ -47,7 +48,10 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
     $scope.mandatoryFields = [];
     $scope.calendarSetting = CalendarService.getSetting();
     $scope.timeFormat = "24h";
-    
+
+    $scope.awcOptionsList = [];
+    $scope.schoolOptionsList = [];
+
     var setCurrentEvent = function(ev){
         $scope.currentEvent = ev;
         if($scope.currentEvent && $scope.currentEvent.event){
@@ -93,7 +97,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
     var storedBy = CommonUtils.getUsername();    
     var orgUnitFromUrl = ($location.search()).ou;
     var eventIdFromUrl = ($location.search()).event;
-    
+
 
      //watch for selection of org unit from tree
     $scope.$watch('selectedOrgUnit', function() {
@@ -170,7 +174,7 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
         });
     }
 
-    $scope.dataElementEditable = function(de) {
+        $scope.dataElementEditable = function(de) {
 
         if($scope.assignedFields[de.id] || $scope.model.editingDisabled || !$scope.hasDataWrite()) {
             return false;
@@ -180,6 +184,30 @@ var eventCaptureControllers = angular.module('eventCaptureControllers', ['ngCsv'
     }
 
     $scope.verifyExpiryDate = function() {
+
+        //alert( $scope.selectedOrgUnit.id + " -- " + $scope.selectedOrgUnit.displayName);
+        //add for punjab-hmis
+        SQLViewService.getALLSQLView().then(function( responseSQLViews ){
+            var sqlViewNameToUIDMap = [];
+            for(var i=0; i<responseSQLViews.sqlViews.length; i++)
+            {
+                sqlViewNameToUIDMap[responseSQLViews.sqlViews[i].displayName]=responseSQLViews.sqlViews[i].id;
+            }
+            var optionSetCodeAWC = $scope.selectedOrgUnit.displayName + " - " + "AWC";
+            var optionSetCodeSCH = $scope.selectedOrgUnit.displayName + " - " + "School";
+            SQLViewService.getOptionsByOprionSetCodeThroughSQLView( sqlViewNameToUIDMap['OPTION_VALUE'], optionSetCodeAWC ).then(function(awcResponse){
+                for (var j = 0; j < awcResponse.listGrid.rows.length; j++) {
+                    $scope.awcOptionsList.push( awcResponse.listGrid.rows[j][1]);
+                }
+                SQLViewService.getOptionsByOprionSetCodeThroughSQLView( sqlViewNameToUIDMap['OPTION_VALUE'], optionSetCodeSCH ).then(function(schResponse){
+                    for (var k = 0; k < schResponse.listGrid.rows.length; k++) {
+                        $scope.schoolOptionsList.push( schResponse.listGrid.rows[k][1]);
+                    }
+                });
+            });
+        });
+
+
         if (!$scope.userAuthority.canEditExpiredStuff && !DateUtils.verifyExpiryDate($scope.currentEvent.eventDate, $scope.selectedProgram.expiryPeriodType,
                 $scope.selectedProgram.expiryDays)) {
             $scope.currentEvent.eventDate = null;

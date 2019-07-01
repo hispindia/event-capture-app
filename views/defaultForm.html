@@ -505,7 +505,60 @@
                                                 ng-blur="saveDatavalue()"
                                                 class="form-control"/>
                                     </div>
-                                    <div ng-switch-when="TEXT">
+
+<!-- start for punjab-change-- {{de.id}}>
+<!-- custom change in punjab for load awc/school list from option-set filter by orgUnitName-->
+									<!-- for awc list -->
+                                    <div ng-switch-when="TEXT" ng-if="de.id === 'mrf08otns9J'">
+                                        <!--
+										<input type="text"
+                                                ng-model="currentEvent[de.id]"
+                                                ng-required="prStDes[de.id].compulsory || mandatoryFields[de.id]"
+                                                ng-disabled="!dataElementEditable(de)"
+                                                name="foo"
+                                                input-field-id={{de.id}}
+                                                ng-blur="saveDatavalue()"
+                                                class="form-control"/>
+										-->
+										<ui-select  ng-model="currentEvent[de.id]"
+													theme="select2"
+													ng-required="prStDes[de.id].compulsory || mandatoryFields[de.id]"
+													ng-disabled="!dataElementEditable(de)"
+													name="foo"
+													on-select="saveDatavalue()"
+													ng-style="{'width':'100%'}">
+											<ui-select-match allow-clear="true" class="form-control-ui-select"  placeholder="{{'select_or_search' | translate}}">{{$select.selected  || $select.selected}}</ui-select-match>
+											<ui-select-choices  repeat="awcOption as awcOption in awcOptionsList | filter: $select.search | limitTo:maxOptionSize">
+												<span ng-bind-html="awcOption | highlight: $select.search"></span>
+											</ui-select-choices>
+										</ui-select>											
+                                    </div>
+									<!-- for school list -->
+                                    <div ng-switch-when="TEXT" ng-if="de.id === 'eX7TTFqjyct'">
+                                        <!--
+										<input type="text"
+                                                ng-model="currentEvent[de.id]"
+                                                ng-required="prStDes[de.id].compulsory || mandatoryFields[de.id]"
+                                                ng-disabled="!dataElementEditable(de)"
+                                                name="foo"
+                                                input-field-id={{de.id}}
+                                                ng-blur="saveDatavalue()"
+                                                class="form-control"/>
+										-->
+										<ui-select  ng-model="currentEvent[de.id]"
+													theme="select2"
+													ng-required="prStDes[de.id].compulsory || mandatoryFields[de.id]"
+													ng-disabled="!dataElementEditable(de)"
+													name="foo"
+													on-select="saveDatavalue()"
+													ng-style="{'width':'100%'}">
+											<ui-select-match allow-clear="true" class="form-control-ui-select"  placeholder="{{'select_or_search' | translate}}">{{$select.selected  || $select.selected}}</ui-select-match>
+											<ui-select-choices  repeat="schoolOption as schoolOption in schoolOptionsList | filter: $select.search | limitTo:maxOptionSize">
+												<span ng-bind-html="schoolOption | highlight: $select.search"></span>
+											</ui-select-choices>
+										</ui-select>
+                                    </div>
+                                    <div ng-switch-when="TEXT"  ng-if="de.id != 'mrf08otns9J' && de.id != 'eX7TTFqjyct'">
                                         <input type="text"
                                                 ng-model="currentEvent[de.id]"
                                                 ng-required="prStDes[de.id].compulsory || mandatoryFields[de.id]"
@@ -515,6 +568,7 @@
                                                 ng-blur="saveDatavalue()"
                                                 class="form-control"/>
                                     </div>
+<!-- end for punjab-change-->
                                     <div ng-switch-when="LONG_TEXT">
                                         <textarea rows="3"
                                                 ng-model="currentEvent[de.id]"

@@ -32,6 +32,7 @@ import 'leaflet-contextmenu/dist/leaflet.contextmenu.css';
 L.Icon.Default.imagePath = '../dhis-web-commons/leaflet/images';
 
 import './services.js';
+import './custom-service.js';
 import './directives.js';
 import './controllers.js';
 import './filters.js';
